@@ -18,7 +18,7 @@ namespace MathComparisonOperator
             string hourlyRate2 = Console.ReadLine();
             Console.WriteLine("What is Person 2's Hours worked per week?");
             string hoursWorked2 = Console.ReadLine();
-            int hourly2 = Convert.ToInt32(hourlyRate1);
+            int hourly2 = Convert.ToInt32(hourlyRate2);
             int hours2 = Convert.ToInt32(hoursWorked2);
             int salary2 = hourly2 * hours2 * 52;
             bool greaterthan = salary1 > salary2;
