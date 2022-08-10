@@ -33,7 +33,7 @@ namespace WhileDoWhileStatements
                         age = Convert.ToInt32(Console.ReadLine()); 
                         break;
                     case 12:
-                        Console.WriteLine("Children Under 10 can't ride rollercoasters. \nType in 8, 10, or 12 to see the Restrictions.");
+                        Console.WriteLine("Children Under 12 can't ride certain rollercoasters. \nType in 8, 10, or 12 to see the Restrictions.");
                         age = Convert.ToInt32(Console.ReadLine());
                         break;
                     default:
