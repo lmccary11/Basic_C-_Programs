@@ -16,37 +16,33 @@ namespace WhileDoWhileStatements
                 day = Console.ReadLine();
                 break;
             }
+            Console.WriteLine("There restrictions below 8, 10, and 12 at the park. \nType in 8, 10, or 12 to see the Restrictions.");
+            int age = Convert.ToInt32(Console.ReadLine());
+            bool range = age == 8 || age == 10 || age == 12;
             do
-            {
-                Console.WriteLine("There restrictions below 8, 10, and 12 at the park. \nType in 8, 10, or 12 to see the Restrictions.");
-                int age = Convert.ToInt32(Console.ReadLine());
-                bool range = age == 8 || age == 10 || age == 12;
-
-                do
+            {                       
+                
+                switch (age)
                 {
-                    switch (age)
-                    {
-                        case 8:
-                            Console.WriteLine("Children Under 8 can only play at booths. \nType in 8, 10, or 12 to see the Restrictions.");
-                            age = Convert.ToInt32(Console.ReadLine());
-                            break;
-                        case 10:
-                            Console.WriteLine("Children Under 10 can't ride rollercoasters. \nType in 8, 10, or 12 to see the Restrictions.");
-                            age = Convert.ToInt32(Console.ReadLine()); 
-                            break;
-                        case 12:
-                            Console.WriteLine("Children Under 10 can't ride rollercoasters. \nType in 8, 10, or 12 to see the Restrictions.");
-                            age = Convert.ToInt32(Console.ReadLine());
-                            break;
-                        default:
-                            Console.WriteLine("There restrictions below 8, 10, and 12 at the park. \nType in an age to see the Restrictions.");
-                            age = Convert.ToInt32(Console.ReadLine());
-                            break;
-                    }
-                }
-                while (range == true);        
+                    case 8:
+                        Console.WriteLine("Children Under 8 can only play at booths. \nType in 8, 10, or 12 to see the Restrictions.");
+                        age = Convert.ToInt32(Console.ReadLine());
+                        break;
+                    case 10:
+                        Console.WriteLine("Children Under 10 can't ride rollercoasters. \nType in 8, 10, or 12 to see the Restrictions.");
+                        age = Convert.ToInt32(Console.ReadLine()); 
+                        break;
+                    case 12:
+                        Console.WriteLine("Children Under 10 can't ride rollercoasters. \nType in 8, 10, or 12 to see the Restrictions.");
+                        age = Convert.ToInt32(Console.ReadLine());
+                        break;
+                    default:
+                        range = false;
+                        break;
+                }               
+                        
             }
-            while (open);
+            while (open && range);
         }
     }
 }
