@@ -12,7 +12,7 @@ namespace TwoIntMethod
         {
             Console.WriteLine("What number do you want the operations on?");
             string num = Console.ReadLine();
-            Console.WriteLine("What other number do you want in the equation?");
+            Console.WriteLine("What other number do you want in the equation?\n This is optional.");
             string num2 = Console.ReadLine();
             if (num2 == "")
             {
