@@ -8,11 +8,9 @@ namespace Constructor
 {
     class Program
     {
+        
         static void Main(string[] args)
         {
-            var j = new int();
-            j = 10;
-            
         }
     }
 }
