@@ -17,6 +17,7 @@ namespace CarInsurance.Controllers
             string carModel, int tickets, bool dui, bool fullCoverage)
         {
             Table table = db.Tables.Find(id);
+            Console.WriteLine("table");
             int age = DateTime.Now.Year - db.Tables.DateOfBirth;
             int ageRate = age < 25 ?((age <18) ? 100 : 50) : 25;
             int carYRate = (db.Tables.carYear < 2000 ^ db.Tables.carYear > 2015) ? 25 : 0; 
