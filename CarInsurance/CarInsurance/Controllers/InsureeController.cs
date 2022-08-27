@@ -13,24 +13,35 @@ namespace CarInsurance.Controllers
     public class InsureeController : Controller
     {
         private InsuranceEntities db = new InsuranceEntities();
-        /*public int quote (int id, int carYear, string carMake, 
-            string carModel, int tickets, bool dui, bool fullCoverage)
-        {
-            Table table = db.Tables.Find(id);
-            Console.WriteLine("table");
-            int age = DateTime.Now.Year - db.Tables.DateOfBirth;
-            int ageRate = age < 25 ?((age <18) ? 100 : 50) : 25;
-            int carYRate = (db.Tables.carYear < 2000 ^ db.Tables.carYear > 2015) ? 25 : 0; 
-            int carMRate = db.Tables.carMake == "Porsche" ? ((db.Tables.carModel == "911 Carrera") ? 50 : 25) : 0; 
-            int TRate = tickets * 10;
-            int FCRate = 1.5;
 
-        }*/
+        
 
         // GET: Insuree
         public ActionResult Index()
         {
-            return View(db.Tables.ToList());
+            return View(db.Insurees.ToList());
+        }
+
+        // GET: Admin
+        public ActionResult Admin()
+        {
+            using (InsuranceEntities db = new InsuranceEntities())
+            {
+                var insurees = db.Insurees;
+                var insureeVms = new List<Insuree>();
+                foreach (var insuree in insurees)
+                {
+                    var insureeVm = new Insuree(); 
+                    insureeVm.Id = insuree.Id;
+                    insureeVm.FirstName = insuree.FirstName;
+                    insureeVm.LastName = insuree.LastName;
+                    insureeVm.EmailAddress = insuree.EmailAddress;
+                    insureeVm.Quote = insuree.Quote;
+                    insureeVms.Add(insureeVm);
+                }
+                ViewBag.Message = insureeVms;
+                return View(insureeVms);
+            }
         }
 
         // GET: Insuree/Details/5
@@ -40,12 +51,12 @@ namespace CarInsurance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Table table = db.Tables.Find(id);
-            if (table == null)
+            Insuree insuree = db.Insurees.Find(id);
+            if (insuree == null)
             {
                 return HttpNotFound();
             }
-            return View(table);
+            return View(insuree);
         }
 
         // GET: Insuree/Create
@@ -59,16 +70,32 @@ namespace CarInsurance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,EmailAddress,DateOfBirth,CarYear,CarMake,CarModel,DUI,SpeedingTickets,CoverageType,Quote")] Table table)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,EmailAddress,DateOfBirth,CarYear,CarMake,CarModel,DUI,SpeedingTickets,CoverageType,Quote")] Insuree insuree)
         {
-            if (ModelState.IsValid)
+            using (InsuranceEntities db = new InsuranceEntities())
             {
-                db.Tables.Add(table);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                
+                int ageRate = (DateTime.Now.Year - insuree.DateOfBirth.Year) < 26 ? (((DateTime.Now.Year - insuree.DateOfBirth.Year) < 19) ? 100 : 50) : 25; 
+                int carYearRate = (insuree.CarYear < 2000 ^ insuree.CarYear > 2015) ? 25 : 0;
+                int carMakeModelRate = insuree.CarMake.ToUpper() == "PORSCHE" ? ((insuree.CarModel.ToUpper().Contains("911") && insuree.CarModel.ToUpper().Contains("CARRERA") == true) ? 50 : 25) : 0;
+                int ticketRate = insuree.SpeedingTickets * 10;
+                int duiRate = insuree.DUI == true ? 25 : 0;
+                int coverageRate = insuree.CoverageType == true ? 50 : 0;
+                double multiplier = (1 + (0.01 * (duiRate + coverageRate)));
+                double q = (50 + ageRate + carYearRate + carMakeModelRate + ticketRate) * (multiplier);
+                insuree.Quote = Convert.ToDecimal(q);
+                
+                if (ModelState.IsValid)
+                {
+                    db.Insurees.Add(insuree);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            return View(table);
+                return View(insuree);
+            }
+            
+            
         }
 
         // GET: Insuree/Edit/5
@@ -78,12 +105,12 @@ namespace CarInsurance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Table table = db.Tables.Find(id);
-            if (table == null)
+            Insuree insuree = db.Insurees.Find(id);
+            if (insuree == null)
             {
                 return HttpNotFound();
             }
-            return View(table);
+            return View(insuree);
         }
 
         // POST: Insuree/Edit/5
@@ -91,15 +118,30 @@ namespace CarInsurance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,EmailAddress,DateOfBirth,CarYear,CarMake,CarModel,DUI,SpeedingTickets,CoverageType,Quote")] Table table)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,EmailAddress,DateOfBirth,CarYear,CarMake,CarModel,DUI,SpeedingTickets,CoverageType,Quote")] Insuree insuree)
         {
-            if (ModelState.IsValid)
+            using (InsuranceEntities db = new InsuranceEntities())
             {
-                db.Entry(table).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                
+                int ageRate = (DateTime.Now.Year - insuree.DateOfBirth.Year) < 26 ? (((DateTime.Now.Year - insuree.DateOfBirth.Year) < 19) ? 100 : 50) : 25;
+                int carYearRate = (insuree.CarYear < 2000 ^ insuree.CarYear > 2015) ? 25 : 0;
+                int carMakeModelRate = insuree.CarMake.ToUpper() == "PORSCHE" ? ((insuree.CarModel.ToUpper().Contains("911") && insuree.CarModel.ToUpper().Contains("CARRERA") == true) ? 50 : 25) : 0;
+                int ticketRate = insuree.SpeedingTickets * 10;
+                int duiRate = insuree.DUI == true ? 25 : 0;
+                int coverageRate = insuree.CoverageType == true ? 50 : 0;
+                double multiplier = (1 + (0.01 * (duiRate + coverageRate)));
+                double q = (50 + ageRate + carYearRate + carMakeModelRate + ticketRate) * (multiplier);
+                insuree.Quote = Convert.ToDecimal(q);
+
+                if (ModelState.IsValid)
+                {
+                    
+                    db.Insurees.Add(insuree);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(insuree);
             }
-            return View(table);
         }
 
         // GET: Insuree/Delete/5
@@ -109,12 +151,12 @@ namespace CarInsurance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Table table = db.Tables.Find(id);
-            if (table == null)
+            Insuree insuree = db.Insurees.Find(id);
+            if (insuree == null)
             {
                 return HttpNotFound();
             }
-            return View(table);
+            return View(insuree);
         }
 
         // POST: Insuree/Delete/5
@@ -122,11 +164,13 @@ namespace CarInsurance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Table table = db.Tables.Find(id);
-            db.Tables.Remove(table);
+            Insuree insuree = db.Insurees.Find(id);
+            db.Insurees.Remove(insuree);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {
