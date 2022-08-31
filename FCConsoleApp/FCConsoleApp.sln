@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCConsoleApp", "FCConsoleApp\FCConsoleApp.csproj", "{C80A0457-6805-46D3-AEF4-396DA24B5B46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C80A0457-6805-46D3-AEF4-396DA24B5B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C80A0457-6805-46D3-AEF4-396DA24B5B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C80A0457-6805-46D3-AEF4-396DA24B5B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C80A0457-6805-46D3-AEF4-396DA24B5B46}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4B5A9DD-3DE0-4C59-925E-1BB551C7784B}
+	EndGlobalSection
+EndGlobal
