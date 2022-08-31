@@ -3,8 +3,8 @@
 Some small projects made using C# and .NET Framework
 
 ## Projects
-	Car Insurance
-	Daily Report
+[Car Insurance](https://github.com/lmccary11/Basic_C-_Programs/tree/master/CarInsurance)
+[Daily Report](https://github.com/lmccary11/Basic_C-_Programs/tree/master/DailyReport)
 
 ### Car Insurance
 This MVC web application prompts and receives user input in order to generate
