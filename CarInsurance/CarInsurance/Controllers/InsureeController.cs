@@ -78,11 +78,12 @@ namespace CarInsurance.Controllers
                 int ageRate = (DateTime.Now.Year - insuree.DateOfBirth.Year) < 26 ? (((DateTime.Now.Year - insuree.DateOfBirth.Year) < 19) ? 100 : 50) : 25; 
                 int carYearRate = (insuree.CarYear < 2000 ^ insuree.CarYear > 2015) ? 25 : 0;
                 int carMakeModelRate = insuree.CarMake.ToUpper() == "PORSCHE" ? ((insuree.CarModel.ToUpper().Contains("911") && insuree.CarModel.ToUpper().Contains("CARRERA") == true) ? 50 : 25) : 0;
-                int ticketRate = insuree.SpeedingTickets * 10;
-                int duiRate = insuree.DUI == true ? 25 : 0;
-                int coverageRate = insuree.CoverageType == true ? 50 : 0;
-                double multiplier = (1 + (0.01 * (duiRate + coverageRate)));
-                double q = (50 + ageRate + carYearRate + carMakeModelRate + ticketRate) * (multiplier);
+                int ticketRate = insuree.SpeedingTickets * 10;                
+                double baseRate = (50 + ageRate + carYearRate + carMakeModelRate + ticketRate);
+                double duiRate = insuree.DUI == true ? 1.25 : 1.0;
+                double rateWithDUI = baseRate * duiRate;
+                double coverageRate = insuree.CoverageType == true ? 1.50 : 1.0;
+                double q = rateWithDUI * coverageRate;
                 insuree.Quote = Convert.ToDecimal(q);
                 
                 if (ModelState.IsValid)
